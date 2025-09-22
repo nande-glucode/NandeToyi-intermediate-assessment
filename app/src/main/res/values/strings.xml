@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Get it done</string>
+    <string name="title_activity_onboarding_screen">Onboarding_screen</string>
+    <string name="title_activity_todo_screen">TodoScreen</string>
+</resources>
