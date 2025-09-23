@@ -14,7 +14,6 @@ import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 @Composable
 fun RootNavGraph(
     navController: NavHostController,
-    todo: ToDo,
     viewModel: TodoViewModel,
     weatherViewModel: WeatherViewModel
 ) {
@@ -25,10 +24,8 @@ fun RootNavGraph(
     ) {
         composable("Home") {
             MainScreenBottomNavBar(
-                todo,
                 viewModel,
-                weatherViewModel,
-                navController
+                weatherViewModel
             )
         }
     }

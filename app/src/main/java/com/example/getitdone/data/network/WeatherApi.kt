@@ -18,4 +18,17 @@ interface WeatherApi {
         @Query("q") city: String,
         @Query("days") days: Int = 3
     ): Response<Weather>
+
+    @GET("current.json")
+    suspend fun getCurrentWeatherByCoords(
+        @Query("key") api: String,
+        @Query("q") coords: String
+    ): Response<Weather>
+
+    @GET("forecast.json")
+    suspend fun getForecastByCoords(
+        @Query("key") api: String,
+        @Query("q") city: String,
+        @Query("days") days: Int = 3
+    ): Response<Weather>
 }

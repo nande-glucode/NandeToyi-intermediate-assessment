@@ -50,10 +50,8 @@ import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun MainScreenBottomNavBar(
-    todo: ToDo,
     viewModel: TodoViewModel,
     weatherViewModel: WeatherViewModel,
-    navController: NavController
 ) {
 
     val isImeVisible = WindowInsets.isImeVisible
@@ -109,7 +107,6 @@ fun MainScreenBottomNavBar(
         ) {
             MainNavGraph(
                 bottomNavController,
-                todo,
                 viewModel,
                 weatherViewModel
             )

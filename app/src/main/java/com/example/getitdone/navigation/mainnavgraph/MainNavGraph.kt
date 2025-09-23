@@ -22,7 +22,6 @@ import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 @Composable
 fun MainNavGraph(
     bottomNavController : NavHostController,
-    todo: ToDo,
     todoViewModel: TodoViewModel,
     weatherViewModel: WeatherViewModel
 ) {
@@ -51,7 +50,7 @@ fun MainNavGraph(
         }
     ) {
         composable(route = BottomNav.Home.route) {
-            TodoScreen(todoViewModel)
+            TodoScreen(todoViewModel, weatherViewModel)
         }
         composable(route = BottomNav.CompletedTodos.route) {
             CompletedTodos(todoViewModel)
@@ -64,7 +63,6 @@ fun MainNavGraph(
         }
         composable(route = "add_todo") {
             AddTodoScreen(
-                todo,
                 todoViewModel,
                 bottomNavController
             )
