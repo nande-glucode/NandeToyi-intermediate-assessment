@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -21,14 +22,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.getitdone.data.network.Resource
 import com.example.getitdone.presentation.components.WeatherDetails
 import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 
 @Composable
-fun WeatherScreen(viewModel: WeatherViewModel) {
+fun WeatherScreen(
+    viewModel: WeatherViewModel = hiltViewModel()
+) {
     var city by remember { mutableStateOf("") }
-    val weatherResult by viewModel.weatherState.observeAsState()
+    val weatherResult by viewModel.weatherState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -49,10 +53,10 @@ fun WeatherScreen(viewModel: WeatherViewModel) {
         }
 
         when (val result = weatherResult) {
-            is Resource.Success -> WeatherDetails(data = result.data)
-            is Resource.Error -> Text(result.message, color = Color.Red)
-            Resource.Loading -> CircularProgressIndicator()
-            null -> TODO()
+            is Resource.Success -> result.data?.let { WeatherDetails(data = it) }
+            is Resource.Error -> Text(result.message ?: "Unknown error", color = Color.Red)
+            is Resource.Loading -> CircularProgressIndicator()
+            null -> Text("Search for a city to see the weather")
         }
     }
 }

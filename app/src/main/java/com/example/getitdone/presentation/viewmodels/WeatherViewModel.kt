@@ -5,29 +5,36 @@ import androidx.lifecycle.viewModelScope
 import com.example.getitdone.data.models.Weather
 import com.example.getitdone.data.network.Resource
 import com.example.getitdone.domain.repositories.WeatherRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class WeatherViewModel(
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
-    private val _weatherState = MutableStateFlow<Resource<Weather>>(Resource.Loading())
-    val weatherState: StateFlow<Resource<Weather>> = _weatherState.asStateFlow()
+    private val _weatherState = MutableStateFlow<Resource<Weather>?>(null)
+    val weatherState: StateFlow<Resource<Weather>?> = _weatherState.asStateFlow()
 
-    fun getCurrentWeather(apiKey: String, city: String) {
+    fun getCurrentWeather(city: String) {
+        if (city.isBlank()) return
+
         viewModelScope.launch {
-            weatherRepository.getCurrentWeather(apiKey, city).collect { resourcs ->
-                _weatherState.value = resourcs
+            weatherRepository.getCurrentWeather(city).collect { resource ->
+                _weatherState.value = resource
             }
         }
     }
 
-    fun getForecast(apiKey: String, city: String, days: Int = 1) {
+    fun getForecast(city: String, days: Int = 3) {
+        if (city.isBlank()) return
+
         viewModelScope.launch {
-            weatherRepository.getForecast(apiKey, city, days).collect { resource ->
+            weatherRepository.getForecast(city, days).collect { resource ->
                 _weatherState.value = resource
             }
         }

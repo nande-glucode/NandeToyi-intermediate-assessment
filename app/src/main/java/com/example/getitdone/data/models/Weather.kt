@@ -1,7 +1,5 @@
 package com.example.getitdone.data.models
 
-import com.google.android.material.timepicker.TimeFormat
-
 data class Weather(
     val location: Location,
     val current: Current,
@@ -11,7 +9,7 @@ data class Weather(
 data class Location(
     val name: String,
     val country: String,
-    val localTime: String
+    val localtime: String
 )
 
 data class Current(

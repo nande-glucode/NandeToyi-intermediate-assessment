@@ -44,6 +44,7 @@ import com.example.getitdone.data.models.ToDo
 import com.example.getitdone.navigation.mainnavgraph.BottomNav
 import com.example.getitdone.navigation.mainnavgraph.MainNavGraph
 import com.example.getitdone.presentation.viewmodels.TodoViewModel
+import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
@@ -51,6 +52,7 @@ import com.example.getitdone.presentation.viewmodels.TodoViewModel
 fun MainScreenBottomNavBar(
     todo: ToDo,
     viewModel: TodoViewModel,
+    weatherViewModel: WeatherViewModel,
     navController: NavController
 ) {
 
@@ -108,7 +110,8 @@ fun MainScreenBottomNavBar(
             MainNavGraph(
                 bottomNavController,
                 todo,
-                viewModel
+                viewModel,
+                weatherViewModel
             )
         }
     }

@@ -9,101 +9,102 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.getitdone.R
 import com.example.getitdone.data.models.Weather
-import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 
 @Composable
-fun WeatherDetails(data: Weather, modifier: Modifier) {
-
-    Column(
+fun WeatherDetails(data: Weather) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.Bottom
+        Column(
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Icon(
-                imageVector = Icons.Default.LocationOn,
-                contentDescription = "Location Icon",
-                modifier = Modifier.size(40.dp)
+            // Location
+            Text(
+                text = "${data.location.name}, ${data.location.country}",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
             )
-            Text(text = data.location.name, fontSize = 24.sp)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = data.location.country, fontSize = 17.sp, color = Color.Gray)
-        }
-        Spacer(modifier = Modifier.height(16.dp))
 
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Text(text = data.current.condition.text, fontSize = 24.sp)
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "${data.current.temp_c}°C", fontSize = 64.sp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "${data.current.temp_c.toInt()}°C",
+                    style = MaterialTheme.typography.displayLarge,
+                    fontWeight = FontWeight.Bold
+                )
 
-        AsyncImage(
-            modifier = Modifier.size(160.dp),
-            model = "https:${data.current.condition.icon}".replace("64x64", "128x128"),
-            contentDescription = "Weather Icon",
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(R.drawable.storm),
-            error = painterResource(R.drawable.cloudy__1_)
-        )
+                Spacer(modifier = Modifier.width(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Card {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    WeatherKeyValue(
-                        value = data.location.localTime.split(" ")[1],
-                        key = "Local Time"
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    AsyncImage(
+                        model = "https:${data.current.condition.icon}",
+                        contentDescription = data.current.condition.text,
+                        modifier = Modifier.size(64.dp)
                     )
-                    WeatherKeyValue(
-                        value = data.location.localTime.split(" ")[0],
-                        key = "Local Date"
+                    Text(
+                        text = data.current.condition.text,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                WeatherDetailItem("Humidity", "${data.current.humidity}%")
+                WeatherDetailItem("Wind", "${data.current.wind_kph} km/h")
+                WeatherDetailItem("UV Index", "${data.current.uv}")
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                WeatherDetailItem("Precipitation", "${data.current.precip_mm}mm")
+                WeatherDetailItem("Local Time", data.location.localtime)
+            }
         }
-
-
     }
 }
 
 @Composable
-fun WeatherKeyValue(key: String, value: String) {
-    Column(
-        modifier = Modifier.padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(text = value, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Text(text = key, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.Gray)
+private fun WeatherDetailItem(label: String, value: String) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium
+        )
     }
 }

@@ -33,7 +33,6 @@ import com.example.getitdone.presentation.viewmodels.TodoViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTodoScreen(
-    toDo: ToDo,
     viewModel: TodoViewModel,
     navController: NavController
 ) {

@@ -8,12 +8,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.getitdone.data.models.ToDo
 import com.example.getitdone.presentation.viewmodels.TodoViewModel
+import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun RootNavGraph(
     navController: NavHostController,
-    viewModel: TodoViewModel
+    todo: ToDo,
+    viewModel: TodoViewModel,
+    weatherViewModel: WeatherViewModel
 ) {
     NavHost(
         navController = navController,
@@ -22,9 +25,10 @@ fun RootNavGraph(
     ) {
         composable("Home") {
             MainScreenBottomNavBar(
-                todo = ToDo(0, "", ""),
-                viewModel = viewModel,
-                navController = navController
+                todo,
+                viewModel,
+                weatherViewModel,
+                navController
             )
         }
     }
