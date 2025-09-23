@@ -41,6 +41,32 @@ class WeatherRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
+    suspend fun getCurrentWeatherByCoords(lat: Double, lon: Double,): Flow<Resource<Weather>> = flow {
+        emit(Resource.Loading())
+        try {
+            val coords = "$lat,$lon"
+            weatherApi.getCurrentWeatherByCoords(Constants.API_KEY, coords).let { response ->
+                val resource = handleResponse(response)
+                emit(resource)
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("Network error: ${e.localizedMessage}"))
+        }
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getForecastByCoords(lat: Double, lon: Double, days: Int = 3): Flow<Resource<Weather>> = flow {
+        emit(Resource.Loading())
+        try {
+            val coords = "$lat,$lon"
+            weatherApi.getForecastByCoords(Constants.API_KEY, coords).let { response ->
+                val resource = handleResponse(response)
+                emit(resource)
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("Network error: ${e.localizedMessage}"))
+        }
+    }.flowOn(Dispatchers.IO)
+
     private fun <T> handleResponse(response: Response<T>): Resource<T> {
         return when {
             response.isSuccessful -> {

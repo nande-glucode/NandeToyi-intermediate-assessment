@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.isImeVisible
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
@@ -33,14 +33,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.getitdone.data.models.ToDo
 import com.example.getitdone.navigation.mainnavgraph.BottomNav
 import com.example.getitdone.navigation.mainnavgraph.MainNavGraph
 import com.example.getitdone.presentation.viewmodels.TodoViewModel
@@ -53,7 +51,6 @@ fun MainScreenBottomNavBar(
     viewModel: TodoViewModel,
     weatherViewModel: WeatherViewModel,
 ) {
-
     val isImeVisible = WindowInsets.isImeVisible
     val bottomNavController = rememberNavController()
     val bottomNavBarBgColor = Color.Black
@@ -63,9 +60,7 @@ fun MainScreenBottomNavBar(
             Box(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-                    .clip(
-                        RoundedCornerShape(40.dp)
-                    )
+                    .clip(RoundedCornerShape(40.dp))
                     .background(bottomNavBarBgColor)
             ) {
                 BottomBar(
@@ -74,20 +69,6 @@ fun MainScreenBottomNavBar(
                 )
             }
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    bottomNavController.navigate("add_todo")
-                },
-                shape = CircleShape
-            ) {
-                Icon(
-                    Icons.Default.Add,
-                    contentDescription = null
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
         modifier = Modifier
             .background(color = bottomNavBarBgColor)
             .systemBarsPadding()
@@ -122,8 +103,7 @@ fun MainScreenBottomNavBar(
     ) {
         val screens = listOf(
             BottomNav.Home,
-            BottomNav.CompletedTodos,
-            BottomNav.Calendar,
+            BottomNav.Add,
             BottomNav.Weather,
         )
 
@@ -164,7 +144,10 @@ fun MainScreenBottomNavBar(
                 Icon(
                     screen.icon.asPainterResource(),
                     contentDescription = null,
-                    tint = if (selected) Color.Green else Color.Black
+                    tint = if (selected) Color.White else Color.Black,
+                    modifier = Modifier.background(
+                        if (selected) Color.Black else Color.White
+                    ),
                 )
             },
             selected = selected,

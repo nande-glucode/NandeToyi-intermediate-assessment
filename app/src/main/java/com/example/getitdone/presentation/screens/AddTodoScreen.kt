@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.getitdone.data.models.ToDo
@@ -41,7 +43,7 @@ fun AddTodoScreen(
     val isCompleted by remember { mutableStateOf(false) }
 
     Column {
-        TopAppBar(
+        CenterAlignedTopAppBar(
             title = { Text("Add Todo") },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
@@ -71,6 +73,7 @@ fun AddTodoScreen(
             modifier = Modifier.padding(top = 30.dp, end = 20.dp)
                 .align(alignment = Alignment.End),
             shape = CircleShape,
+            containerColor = Color.Black,
             onClick = {
                 if (title.isNotBlank() && description.isNotBlank()) {
                     viewModel.addTodo(title, description, isCompleted)
@@ -78,7 +81,11 @@ fun AddTodoScreen(
                 }
             }
         ) {
-            Icon(Icons.Filled.Done, "")
+            Icon(
+                Icons.Filled.Done,
+                null,
+                tint = Color.White
+            )
         }
     }
 }

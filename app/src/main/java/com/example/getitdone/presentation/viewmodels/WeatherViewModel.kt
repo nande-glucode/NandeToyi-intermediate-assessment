@@ -39,4 +39,20 @@ class WeatherViewModel @Inject constructor(
             }
         }
     }
+
+    fun getCurrentWeatherByCoords(lat: Double, lon: Double) {
+        viewModelScope.launch {
+            weatherRepository.getCurrentWeatherByCoords(lat, lon).collect { resource ->
+                _weatherState.value = resource
+            }
+        }
+    }
+
+    fun getForecastByCoords(lat: Double, lon: Double) {
+        viewModelScope.launch {
+            weatherRepository.getForecastByCoords(lat, lon).collect { resource ->
+                _weatherState.value = resource
+            }
+        }
+    }
 }

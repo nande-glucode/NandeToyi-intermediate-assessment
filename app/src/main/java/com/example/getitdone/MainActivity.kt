@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +62,8 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             GetItDoneTheme {
+                val navController = rememberNavController()
+
                 val systemUiController = rememberSystemUiController()
 
                 var locationText by remember { mutableStateOf("No location obtained :(") }
@@ -74,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                         getLocationAndWeather(
                             onLocationSuccess = { lat, lon ->
                                 locationText = "Location: LAT: $lat, LON: $lon"
-                                weatherViewModel.getCurrentWeatherByCoords(lat, lon)
+                                weatherViewModel.getForecastByCoords(lat, lon)
                             },
                             onLocationFailed = { error ->
                                 showPermissionResultText = true
@@ -97,7 +100,6 @@ class MainActivity : AppCompatActivity() {
                     systemUiController.setNavigationBarColor(color = Color.Transparent)
                 }
 
-                val navController = rememberNavController()
                 val viewModel: TodoViewModel = viewModel(factory = factory)
                 RootNavGraph(navController, viewModel, weatherViewModel)
             }
@@ -179,5 +181,14 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    fun refreshWeather() {
+        getLocationAndWeather(
+            onLocationSuccess = { lat, lon ->
+                weatherViewModel.getForecastByCoords(lat, lon)
+            },
+            onLocationFailed = { /* Handle error if needed */ }
+        )
     }
 }

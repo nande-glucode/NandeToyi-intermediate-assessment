@@ -35,7 +35,6 @@ fun WeatherDetails(data: Weather) {
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Location
             Text(
                 text = "${data.location.name}, ${data.location.country}",
                 style = MaterialTheme.typography.headlineMedium,

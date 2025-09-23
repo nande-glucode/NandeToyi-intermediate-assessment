@@ -50,13 +50,10 @@ fun MainNavGraph(
         }
     ) {
         composable(route = BottomNav.Home.route) {
-            TodoScreen(todoViewModel, weatherViewModel)
+            TodoScreen(todoViewModel, weatherViewModel, {})
         }
-        composable(route = BottomNav.CompletedTodos.route) {
-            CompletedTodos(todoViewModel)
-        }
-        composable(route = BottomNav.Calendar.route) {
-            CalenderScreen()
+        composable(route = BottomNav.Add.route) {
+            AddTodoScreen(todoViewModel, bottomNavController)
         }
         composable(route = BottomNav.Weather.route) {
             WeatherScreen(weatherViewModel)

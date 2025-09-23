@@ -21,16 +21,10 @@ sealed class BottomNav(
         route = Screen.HomeScreen.route
     )
 
-    data object CompletedTodos : BottomNav(
-        icon = IconResource.fromImageVector(Icons.Default.Done),
-        title = "CompletedTodos",
-        route = Screen.CompletedTodos.route
-    )
-
-    data object Calendar : BottomNav(
-        icon = IconResource.fromImageVector(Icons.Default.DateRange),
-        title = "Calendar",
-        route = Screen.CalendarScreen.route
+    data object Add : BottomNav(
+        icon = IconResource.fromImageVector(Icons.Default.Add),
+        title = "Add",
+        route = Screen.AddTodoScreen.route
     )
 
     data object Weather : BottomNav(

@@ -47,7 +47,7 @@ fun WeatherScreen(
                 label = { Text("Search City") },
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = { viewModel.getCurrentWeather(city) }) {
+            IconButton(onClick = { viewModel.getForecast(city) }) {
                 Icon(Icons.Default.Search, contentDescription = "Search")
             }
         }
