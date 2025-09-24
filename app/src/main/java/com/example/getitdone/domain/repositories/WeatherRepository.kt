@@ -17,7 +17,7 @@ class WeatherRepository @Inject constructor(
     private val weatherApi: WeatherApi
 ) {
 
-    suspend fun getCurrentWeather(city: String): Flow<Resource<Weather>> = flow {
+    fun getCurrentWeather(city: String): Flow<Resource<Weather>> = flow {
         emit(Resource.Loading())
         try {
             weatherApi.getCurrentWeather(Constants.API_KEY, city).let { response ->
@@ -29,7 +29,7 @@ class WeatherRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getForecast(city: String, days: Int = 3): Flow<Resource<Weather>> = flow {
+    fun getForecast(city: String, days: Int = 3): Flow<Resource<Weather>> = flow {
         emit(Resource.Loading())
         try {
             weatherApi.getForecast(Constants.API_KEY, city, days).let { response ->
@@ -41,7 +41,7 @@ class WeatherRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getCurrentWeatherByCoords(lat: Double, lon: Double,): Flow<Resource<Weather>> = flow {
+    fun getCurrentWeatherByCoords(lat: Double, lon: Double,): Flow<Resource<Weather>> = flow {
         emit(Resource.Loading())
         try {
             val coords = "$lat,$lon"
@@ -54,7 +54,7 @@ class WeatherRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getForecastByCoords(lat: Double, lon: Double, days: Int = 3): Flow<Resource<Weather>> = flow {
+    fun getForecastByCoords(lat: Double, lon: Double, days: Int = 3): Flow<Resource<Weather>> = flow {
         emit(Resource.Loading())
         try {
             val coords = "$lat,$lon"
