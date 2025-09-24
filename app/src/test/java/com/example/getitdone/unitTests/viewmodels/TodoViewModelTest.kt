@@ -76,7 +76,7 @@ class TodoViewModelTest {
             updatedTodo.id == todo.id &&
                     updatedTodo.title == todo.title &&
                     updatedTodo.description == todo.description &&
-                    updatedTodo.isCompleted == !todo.isCompleted // Should be toggled
+                    updatedTodo.isCompleted == !todo.isCompleted
         })
     }
 
