@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -29,7 +30,7 @@ fun WeatherDetails(data: Weather) {
             .fillMaxWidth()
             .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -62,8 +63,7 @@ fun WeatherDetails(data: Weather) {
                         modifier = Modifier.size(64.dp)
                     )
                     Text(
-                        text = data.current.condition.text,
-                        style = MaterialTheme.typography.bodyMedium
+                        text = data.current.condition.text
                     )
                 }
             }
@@ -96,14 +96,10 @@ fun WeatherDetails(data: Weather) {
 private fun WeatherDetailItem(label: String, value: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            text = label
         )
         Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium
+            text = value
         )
     }
 }

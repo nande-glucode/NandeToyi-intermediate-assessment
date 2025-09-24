@@ -8,12 +8,5 @@ data class ToDo(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     var title: String,
     var description: String,
-    val isCompleted: Boolean = false,
-   // val priority: PriorityLevel
+    val isCompleted: Boolean = false
 )
-
-//enum class PriorityLevel {
-//    LOW,
-//    MEDIUM,
-//    HIGH
-//}

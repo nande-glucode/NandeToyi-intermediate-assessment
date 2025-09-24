@@ -33,7 +33,7 @@ fun TodoItem(
 ) {
     Card(
         Modifier.fillMaxWidth().padding(vertical = 4.dp)
-            .size(200.dp),
+            .size(150.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -67,7 +67,8 @@ fun TodoItem(
             Text(
                 text = todo.description,
                 modifier = Modifier.weight(1f)
-                    .padding(start = 25.dp)
+                    .padding(start = 25.dp),
+                color = Color.Black
             )
 
         }

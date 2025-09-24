@@ -17,16 +17,17 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -48,8 +49,7 @@ fun WeatherDisplay(
         modifier = modifier
             .fillMaxWidth()
             .height(120.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        shape = RoundedCornerShape(16.dp)
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
             modifier = Modifier
@@ -170,11 +170,12 @@ private fun WeatherSuccessContent(
             )
         }
 
-        val astro = weather.forecast?.forecastday?.get(0)?.astro
+
         Column(
             horizontalAlignment = Alignment.End,
             modifier = Modifier.weight(1f)
         ) {
+            val astro = weather.forecast?.forecastday?.get(0)?.astro
             Spacer(modifier = Modifier.height(8.dp))
             if (astro != null) {
                 Text(

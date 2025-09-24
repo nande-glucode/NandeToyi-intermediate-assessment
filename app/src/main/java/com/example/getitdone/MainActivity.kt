@@ -9,7 +9,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +42,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var weatherViewModel: WeatherViewModel
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +62,9 @@ class MainActivity : AppCompatActivity() {
         val factory = TodoViewModelFactory(repository)
 
         setContent {
-            GetItDoneTheme {
+            val isDarkMode = remember { mutableStateOf(false) }
+            val dynamicColor : Boolean = false
+            GetItDoneTheme(isDarkMode.value, dynamicColor = dynamicColor) {
                 val navController = rememberNavController()
 
                 val systemUiController = rememberSystemUiController()
@@ -95,13 +98,13 @@ class MainActivity : AppCompatActivity() {
                 SideEffect {
                     systemUiController.setStatusBarColor(
                         color = Color.Transparent,
-                        darkIcons = false
+                        darkIcons = !isDarkMode.value
                     )
                     systemUiController.setNavigationBarColor(color = Color.Transparent)
                 }
 
                 val viewModel: TodoViewModel = viewModel(factory = factory)
-                RootNavGraph(navController, viewModel, weatherViewModel)
+                RootNavGraph(navController, viewModel, weatherViewModel, isDarkMode.value, { isDarkMode.value = !isDarkMode.value})
             }
         }
     }
@@ -181,14 +184,5 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.checkSelfPermission(
                     this, Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED)
-    }
-
-    fun refreshWeather() {
-        getLocationAndWeather(
-            onLocationSuccess = { lat, lon ->
-                weatherViewModel.getForecastByCoords(lat, lon)
-            },
-            onLocationFailed = { /* Handle error if needed */ }
-        )
     }
 }

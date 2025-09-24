@@ -14,16 +14,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,6 +44,8 @@ import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 fun MainScreenBottomNavBar(
     viewModel: TodoViewModel,
     weatherViewModel: WeatherViewModel,
+    isDarkMode: Boolean,
+    onThemeToggle: () -> Unit
 ) {
     val isImeVisible = WindowInsets.isImeVisible
     val bottomNavController = rememberNavController()
@@ -89,7 +85,9 @@ fun MainScreenBottomNavBar(
             MainNavGraph(
                 bottomNavController,
                 viewModel,
-                weatherViewModel
+                weatherViewModel,
+                isDarkMode,
+                onThemeToggle
             )
         }
     }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Tab
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Switch
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -35,7 +36,9 @@ import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 fun TodoScreen(
     viewModel: TodoViewModel,
     weatherViewModel: WeatherViewModel,
-    onRefreshWeather: () -> Unit
+    onRefreshWeather: () -> Unit,
+    isDarkMode: Boolean,
+    onThemeToggle: () ->Unit
 ) {
     val todos by viewModel.todos.collectAsState()
     val weatherState by weatherViewModel.weatherState.collectAsStateWithLifecycle()
@@ -43,6 +46,8 @@ fun TodoScreen(
     val tabs = listOf("All", "In Progress", "Completed")
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     var selectedTab by remember { mutableStateOf(pagerState.currentPage) }
+    var isDarkMode by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(selectedTab) {
         pagerState.scrollToPage(selectedTab)
@@ -58,13 +63,17 @@ fun TodoScreen(
             .nestedScroll(scrollBehaviour.nestedScrollConnection)
     ) {
         CenterAlignedTopAppBar(
-            title = { Text("Let's get it done") }
+            title = { Text("Let's get it done!") },
+        )
+        Switch(
+            checked = isDarkMode,
+            onCheckedChange = { onThemeToggle() }
         )
         WeatherDisplay(
             weatherState,
             onRefresh = onRefreshWeather
         )
-        Spacer(modifier = Modifier.padding(20.dp))
+        Spacer(modifier = Modifier.padding(10.dp))
         TabRow(selectedTabIndex = selectedTab) {
             for (index in 0 until pagerState.pageCount) {
                 Tab(

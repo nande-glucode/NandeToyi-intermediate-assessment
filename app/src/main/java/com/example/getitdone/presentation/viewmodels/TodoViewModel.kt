@@ -1,7 +1,5 @@
 package com.example.getitdone.presentation.viewmodels
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.getitdone.data.models.ToDo

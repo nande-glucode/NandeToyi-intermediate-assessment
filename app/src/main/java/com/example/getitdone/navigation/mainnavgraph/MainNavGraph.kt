@@ -9,10 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.getitdone.data.models.ToDo
 import com.example.getitdone.presentation.screens.AddTodoScreen
-import com.example.getitdone.presentation.screens.CalenderScreen
-import com.example.getitdone.presentation.screens.CompletedTodos
 import com.example.getitdone.presentation.screens.TodoScreen
 import com.example.getitdone.presentation.screens.WeatherScreen
 import com.example.getitdone.presentation.viewmodels.TodoViewModel
@@ -23,7 +20,9 @@ import com.example.getitdone.presentation.viewmodels.WeatherViewModel
 fun MainNavGraph(
     bottomNavController : NavHostController,
     todoViewModel: TodoViewModel,
-    weatherViewModel: WeatherViewModel
+    weatherViewModel: WeatherViewModel,
+    isDarkMode: Boolean,
+    onThemeToggle: () -> Unit
 ) {
     NavHost(
         navController = bottomNavController,
@@ -50,7 +49,7 @@ fun MainNavGraph(
         }
     ) {
         composable(route = BottomNav.Home.route) {
-            TodoScreen(todoViewModel, weatherViewModel, {})
+            TodoScreen(todoViewModel, weatherViewModel, {},isDarkMode, onThemeToggle)
         }
         composable(route = BottomNav.Add.route) {
             AddTodoScreen(todoViewModel, bottomNavController)
